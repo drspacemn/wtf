@@ -1,0 +1,16 @@
+[package]
+name = "capnprs"
+build = "build.rs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+capnp = "0.14.5"
+capnp-rpc = "0.14.0"
+futures = "0.3.0"
+async-std = "1.10.0"
+
+[build-dependencies]
+capnpc = "0.14"
