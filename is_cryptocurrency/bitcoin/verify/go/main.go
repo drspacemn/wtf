@@ -6,7 +6,6 @@ import (
 	"math"
 	"bytes"
 	"strings"
-	"math/big"
 	"encoding/json"
 	"crypto/sha256"
 )
@@ -52,62 +51,67 @@ func (block Block) HashBlock() ([]byte, error) {
 	return  Reverse(hashBytes[:]), nil
 }
 
-func (block Block) GetMerkleRoot() (root *big.Int) {
-	var merkleHold []*big.Int
+func (block Block) GetMerkleRoot() (root []byte) {
+	var merkleHold [][]byte
+	var merklePass [][]byte
+
+	// format transaction hashes in little endian
 	for _, tx := range block.Tx {
-		h1 := sha256.Sum256(HexToBytes(tx.Hash)[:])
-
-		merkleHold = append(merkleHold, new(big.Int).SetBytes(h1[:]))
+		merkleHold = append(merkleHold, HexToBytes(tx.Hash))
 	}
+
+	// ensure even leaves
 	if len(merkleHold) % 2 == 1 {
-		merkleHold = append(merkleHold, new(big.Int).Set(merkleHold[len(merkleHold)-1]))
+		merkleHold = append(merkleHold, merkleHold[len(merkleHold)-1])
 	}
 
-	rounds := int(math.Ceil(math.Log2(float64(len(merkleHold)/2))))
+	// get the merkle tree height
+	height := int(math.Ceil(math.Log2(float64(len(merkleHold)))))
 	fmt.Println("Num leaves: ", len(merkleHold))
-	fmt.Println("Num basenodes: ", len(merkleHold)/2)
-	fmt.Println("Rounds: ", rounds)
+	fmt.Println("Rounds: ", height)
 
-	var merklePass []*big.Int
-	for i := 0; i < rounds; i++ {
+	for i := 0; i < height; i++ {
 		if i % 2 == 0 {
-			for j := 0; j <= (len(merkleHold)-2); j += 2 {
-				var buf []byte
-				buf = append(buf, merkleHold[j].Bytes()...)
-				buf = append(buf, merkleHold[j+1].Bytes()...)
-				merklePass = append(merklePass, hashFunc(buf))
+			// ensure even nodes
+			if len(merkleHold) % 2 == 1 {
+				merkleHold = append(merkleHold, merkleHold[len(merkleHold)-1])
 			}
 
-			fmt.Printf("Round %d: %s %s %s %s\n", i, strings.Repeat("  ", i), merklePass[0].String()[:4], strings.Repeat("....", rounds - i), merklePass[len(merklePass)-1].String()[:4])
-			merkleHold = []*big.Int{}
+			// hash adjacent nodes in the row
+			for j := 0; j < len(merkleHold); j += 2 {
+				merklePass = append(merklePass, hashFunc(append(merkleHold[j], merkleHold[j+1]...)))
+			}
+
+			fmt.Printf("Round %d: %s 0x%x %s 0x%x \n", i, strings.Repeat("  ", i), merklePass[0][:4], strings.Repeat("....", height - i), merklePass[len(merklePass)-1][:4])
+			merkleHold = make([][]byte, 0)
 		} else {
-			for j := 0; j <= (len(merklePass)-2); j += 2 {
-				var buf []byte
-				buf = append(buf, merklePass[j].Bytes()...)
-				buf = append(buf, merklePass[j+1].Bytes()...)
-				merkleHold = append(merkleHold, hashFunc(buf))
+			// ensure even nodes
+			if len(merklePass) % 2 == 1 {
+				merklePass = append(merklePass, merklePass[len(merklePass)-1])
 			}
 
-			fmt.Printf("Round %d: %s %s %s %s\n", i, strings.Repeat("  ", i), merkleHold[0].String()[:4], strings.Repeat("....", rounds - i), merkleHold[len(merkleHold)-1].String()[:4])
-			merklePass = []*big.Int{}
+			// hash adjacent nodes in the row
+			for j := 0; j < len(merklePass); j += 2 {
+				merkleHold = append(merkleHold, hashFunc(append(merklePass[j], merklePass[j+1]...)))
+			}
+
+			fmt.Printf("Round %d: %s 0x%x %s 0x%x \n", i, strings.Repeat("  ", i), merkleHold[0][:4], strings.Repeat("....", height - i), merkleHold[len(merkleHold)-1][:4])
+			merklePass = make([][]byte, 0)
 		}
 	}
 	fmt.Print()
 
-	if len(merkleHold) > 0 {
-		bigRoot := Reverse(merkleHold[0].Bytes())
-		return new(big.Int).SetBytes(bigRoot)
-	} else if len(merklePass) > 0 {
-		bigRoot := Reverse(merkleHold[0].Bytes())
-		return new(big.Int).SetBytes(bigRoot)
+	if height % 2 == 0 {
+		return Reverse(merkleHold[0])
+	} else {
+		return Reverse(merklePass[0])
 	}
-	return root
 }
 
-func hashFunc(data []byte) *big.Int {
+func hashFunc(data []byte) []byte {
 	hash := sha256.Sum256(data)
 	hash = sha256.Sum256(hash[:])
-	return new(big.Int).SetBytes(hash[:])
+	return hash[:]
 }
 
 func (block Block) FmtHeader() []byte {
