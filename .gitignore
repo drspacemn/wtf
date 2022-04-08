@@ -1,5 +1,7 @@
-# misc. json data
+# misc. json data and logs
 */**/*.json
+*/**/*.txt
+*/**/*.log
 
 # rustlang deps and builds
 */**/target

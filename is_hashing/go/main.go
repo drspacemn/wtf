@@ -51,7 +51,7 @@ func printNode(node Node, level int) {
 	if l, ok := node.left.(Node); ok {
 		printNode(l, level + 1)
 	} else if l, ok := node.left.(Block); ok {
-		fmt.Printf("%d %s %s data %s \n", level + 1, strings.Repeat(" ", level + 1), l.hash(), 1)
+		fmt.Printf("%d %s %s data %v \n", level + 1, strings.Repeat(" ", level + 1), l.hash(), l)
 	}
 	if r, ok := node.right.(Node); ok {
 		printNode(r, level + 1)
