@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"strings"
 	"math/big"
 	"encoding/hex"
@@ -97,4 +98,53 @@ func Reverse(numbers []byte) []byte {
 		numbers[i], numbers[j] = numbers[j], numbers[i]
 	}
 	return numbers
+}
+
+func (block Block) GetMerkleRootQuiet() (root []byte) {
+	var merkleHold [][]byte
+	var merklePass [][]byte
+
+	// format transaction hashes in little endian
+	for _, tx := range block.Tx {
+		merkleHold = append(merkleHold, HexToBytes(tx.Hash))
+	}
+
+	// ensure even leaves
+	if len(merkleHold) % 2 == 1 {
+		merkleHold = append(merkleHold, merkleHold[len(merkleHold)-1])
+	}
+
+	// get the merkle tree height
+	height := int(math.Ceil(math.Log2(float64(len(merkleHold)))))
+	for i := 0; i < height; i++ {
+		if i % 2 == 0 {
+			// ensure even nodes
+			if len(merkleHold) % 2 == 1 {
+				merkleHold = append(merkleHold, merkleHold[len(merkleHold)-1])
+			}
+
+			// hash adjacent nodes in the row
+			for j := 0; j < len(merkleHold); j += 2 {
+				merklePass = append(merklePass, hashFunc(append(merkleHold[j], merkleHold[j+1]...)))
+			}
+			merkleHold = make([][]byte, 0)
+		} else {
+			// ensure even nodes
+			if len(merklePass) % 2 == 1 {
+				merklePass = append(merklePass, merklePass[len(merklePass)-1])
+			}
+
+			// hash adjacent nodes in the row
+			for j := 0; j < len(merklePass); j += 2 {
+				merkleHold = append(merkleHold, hashFunc(append(merklePass[j], merklePass[j+1]...)))
+			}
+			merklePass = make([][]byte, 0)
+		}
+	}
+	// flip merkle root to big endian
+	if height % 2 == 0 {
+		return Reverse(merkleHold[0])
+	} else {
+		return Reverse(merklePass[0])
+	}
 }

@@ -11,10 +11,11 @@ import (
 )
 
 // https://www.blockchain.com/btc/block/00000000000000000000dd97d3f8b6198899f6ea21563dc932df76cb5bf00787
-// to pull block data: curl https://blockchain.info/rawblock/00000000000000000000dd97d3f8b6198899f6ea21563dc932df76cb5bf00787 > rawBTCHeight730724.json
+// to pull block data: curl https://blockchain.info/rawblock/00000000000000000000dd97d3f8b6198899f6ea21563dc932df76cb5bf00787 > rawBTCBlock.json
+// to pull block data: curl https://blockchain.info/rawblock/0000000000000000000836929e872bb5a678546b0a19900b974c206c338f0947 > rawBTCBlock.json
 
 func main() {
-    rawBlockFile, err := os.ReadFile("../rawBTCHeight730724.json")
+    rawBlockFile, err := os.ReadFile("../rawBTCBlock.json")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -101,6 +102,7 @@ func (block Block) GetMerkleRoot() (root []byte) {
 	}
 	fmt.Print()
 
+	// flip merkle root to big endian
 	if height % 2 == 0 {
 		return Reverse(merkleHold[0])
 	} else {

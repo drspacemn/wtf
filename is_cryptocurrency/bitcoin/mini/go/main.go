@@ -11,7 +11,7 @@ import (
 )
 
 // block header storing the difficulty that the block was mined
-const targetBits = 1
+const targetBits = 20
 
 var maxNonce int64 = math.MaxInt64
 
