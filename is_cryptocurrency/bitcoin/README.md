@@ -6,6 +6,8 @@
 - Timestamp server takes hash of block of items and publishes the hash(each timestamp includes the previous timestamp)
 - POW: scanning for a value that when hashed, the hash begins with a number of zero bits
   - increment a nonce in the block until
+- Nakamoto Consensus: nodes don't need to know each other
+  - nodes can come and go as they please
 
 ### Run Examples:
 PoW example
