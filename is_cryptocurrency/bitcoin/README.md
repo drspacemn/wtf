@@ -1,5 +1,12 @@
 ## WTF is Bitcoin?
 
+### Notes:
+- Peer-to-peer distributed timestamp server to generate computational proof of the chronological order of transactions
+- Transactions must be publicly announced and need a system for participants to agree on a single history
+- Timestamp server takes hash of block of items and publishes the hash(each timestamp includes the previous timestamp)
+- POW: scanning for a value that when hashed, the hash begins with a number of zero bits
+  - increment a nonce in the block until
+
 ### Run Examples:
 PoW example
 change the 'targetBits' constant to see how the mining difficulty affects block creation
