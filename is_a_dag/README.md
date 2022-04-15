@@ -16,9 +16,11 @@
 - instead of pruning new growth, growth is woven back into the body of the ledger
 - any user can create a transaction, that is put in a "block" and spread through network
 - in hashgraph no transactions are discarded
-- 
 
+### Question:
+- can I lock just part of a dag
 
 #### Sources: 
 - https://en.wikipedia.org/wiki/Directed_acyclic_graph
 - https://pkg.go.dev/github.com/hashicorp/terraform/dag
+- https://medium.com/@kotsbtechcdac/dag-will-overcome-blockchain-problems-dag-vs-blockchain-9ca302651122

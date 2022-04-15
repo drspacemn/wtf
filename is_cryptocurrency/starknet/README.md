@@ -26,3 +26,4 @@ go run *.go
 #### Sources:
 - https://starknet.io/glossary
 - https://docs.starknet.io/docs/State/starknet-state
+- https://aszepieniec.github.io/stark-anatomy

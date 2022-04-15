@@ -1,20 +1,37 @@
 import json
-# import asyncio
-from typing import Sequence
+import asyncio
+import requests
 
 from starkware.cairo.lang.vm.crypto import pedersen_hash
 from starkware.starknet.definitions.general_config import StarknetGeneralConfig
-from starkware.starknet.services.api.feeder_gateway.block_hash import calculate_block_hash
+from starkware.starknet.services.api.feeder_gateway.block_hash import calculate_block_hash, calculate_event_hash
 
-async def calc_block(parent_hash, block_number, global_state_root, block_timestamp, tx_hashes, tx_signatures, event_hashes):
-    hash = calculate_block_hash(StarknetGeneralConfig, parent_hash, block_number, global_state_root, block_timestamp, tx_hashes, tx_signatures, event_hashes, pedersen_hash)
-    print("BLOCK HASH: ", hash)
+async def calc_block(parent_hash, block_number, global_state_root, block_timestamp, tx_hashes, tx_signatures, event_hashes, block_hash):
+    hash = await calculate_block_hash(
+        StarknetGeneralConfig,
+        parent_hash,
+        block_number,
+        global_state_root,
+        block_timestamp,
+        tx_hashes,
+        tx_signatures,
+        event_hashes,
+        pedersen_hash
+    )
+    print("Fetched Hash: ", block_hash)
+    print("Calculated Hash: 0x%x" % (hash))
+    print("Match: " , int(block_hash, 16) == hash)
+    return
 
-with open('../rawStarkNetBlock145996.json') as f:
-    data = json.load(f)
+url = requests.get("https://alpha4.starknet.io/feeder_gateway/get_block?blockNumber=157908")
+text = url.text
+data = json.loads(text)
 
-print(data["timestamp"])
-
+parentHash = int(data["parent_block_hash"], 16)
+blockNum = data["block_number"]
+stateRoot = bytes.fromhex(data["state_root"])
+ts = data["timestamp"]
+blockHash = data["block_hash"]
 txHashes = []
 txSignatures = []
 eventHashes = []
@@ -33,16 +50,32 @@ for i in data["transactions"]:
         txSignatures.append([])
 
 for j in data["transaction_receipts"]:
-    print("EVENTS ", j["events"])
+    for e in j["events"]:
+        keys = []
+        for k in e["keys"]:
+            keys.append(int(k, 16))
 
-print("HASHES: ", txHashes)
-print("HASHES: ", txSignatures)
+        data = []
+        for d in e["data"]:
+            data.append(int(d, 16))
 
-# loop = asyncio.get_event_loop()
-# loop.run_until_complete(calc_block(
-#     data["parent_block_hash"],
-#     data["block_number"],
-#     data["state_root"],
-#     data["timestamp"],
-#     data[]))
-# loop.close()
+        evHash = calculate_event_hash(
+            int(e["from_address"], 16),
+            keys,
+            data,
+            pedersen_hash
+        )
+        eventHashes.append(evHash)
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(calc_block(
+        parentHash,
+        blockNum,
+        stateRoot,
+        ts,
+        txHashes,
+        txSignatures,
+        eventHashes,
+        blockHash
+    ))
+loop.close()
