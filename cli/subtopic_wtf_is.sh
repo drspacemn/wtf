@@ -23,7 +23,7 @@ if [[ ! "$CURR_SUBS" == *"${SPLIT[1]}"* ]]; then
 fi
 
 initGolang() {
-    bash -c "sed -i  '/^#### Examples:.*/a - \[golang\](./$SUB_TOPIC/go)' ${SPLIT[0]}/README.md"
+    bash -c "sed -i  '/^#### Examples:.*/a - \[golang-${SPLIT[1]}\](./$SUB_TOPIC/go)' ${SPLIT[0]}/README.md"
     mkdir -p $SUB_TOPIC/go
     cd $SUB_TOPIC/go; touch main.go
     bash -c "go mod init github.com/drspacemn/wtf/$SUB_TOPIC/go"
@@ -33,14 +33,14 @@ initGolang() {
 }
 
 initRustlang() {
-    bash -c "sed -i  '/^#### Examples:.*/a - \[rust\](./$SUB_TOPIC/rust)' ${SPLIT[0]}/README.md"
+    bash -c "sed -i  '/^#### Examples:.*/a - \[rust-${SPLIT[1]}\](./$SUB_TOPIC/rust)' ${SPLIT[0]}/README.md"
     cd $SUB_TOPIC
     cargo new rust
     cd $WRK_DIR
 }
 
 initPython() {
-    bash -c "sed -i  '/^#### Examples:.*/a - \[python\](./$SUB_TOPIC/python)' ${SPLIT[0]}/README.md"
+    bash -c "sed -i  '/^#### Examples:.*/a - \[python-${SPLIT[1]}\](./$SUB_TOPIC/python)' ${SPLIT[0]}/README.md"
     mkdir -p $SUB_TOPIC/python
     touch $SUB_TOPIC/python/main.py
 }

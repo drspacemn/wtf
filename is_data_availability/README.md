@@ -11,9 +11,9 @@
 
 
 #### Examples:
-- [python](./is_data_availability/erasure_coding/python)
-- [rust](./is_data_availability/erasure_coding/rust)
-- [golang](./is_data_availability/erasure_coding/go)
+- [python-erasure_coding](./is_data_availability/erasure_coding/python)
+- [rust-erasure_coding](./is_data_availability/erasure_coding/rust)
+- [golang-erasure_coding](./is_data_availability/erasure_coding/go)
 
 <hr>
 Subtopics: [erasure_coding]

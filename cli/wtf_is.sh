@@ -2,10 +2,11 @@
 
 TOPIC="$1"
 TOPIC_PATH="is_$TOPIC"
-shift
-ALL_ARGS="$@"
-ALL_ARGS=$(echo "$ALL_ARGS" | tr " " ",")
 TITLE=""
+TAGS=""
+
+curl --request GET --url https://wordsapiv1.p.rapidapi.com/words/hatchback/typeOf --header "X-RapidAPI-Host: $WORDS_HOST" --header "X-RapidAPI-Key: $WORDS_KEY"
+RAW_TAGS=$(curl "https://wordsapiv1.p.mashape.com/words/$TOPIC" | jq )
 
 mkdir -p $TOPIC_PATH
 touch $TOPIC_PATH/README.md
@@ -26,5 +27,6 @@ echo -e "#### Overview:\n\n" >> $TOPIC_PATH/README.md
 echo -e "#### Notes:\n\n" >> $TOPIC_PATH/README.md 
 echo -e "#### Sources:\n\n" >> $TOPIC_PATH/README.md 
 echo -e "#### Examples:\n\n<hr>" >> $TOPIC_PATH/README.md 
-echo -e "Subtopics: []\n" >> $TOPIC_PATH/README.md
-echo -e "Tags: [$ALL_ARGS]" >> $TOPIC_PATH/README.md
+echo -e "Synonyms: [$ALL_ARGS]" >> $TOPIC_PATH/README.md
+echo -e "TypeOf: [$ALL_ARGS]" >> $TOPIC_PATH/README.md
+echo -e "Subtopics:\n" >> $TOPIC_PATH/README.md
