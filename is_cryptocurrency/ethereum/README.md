@@ -86,6 +86,7 @@ WHAT ARE THE KEYS AND VALUES OF THE TRIE?
 
 THE PROCESS OF EXECUTING CONTRACT CODE IS PART OF THE DEFINITION OF THE STATE TRANSITION FUNCTION
 - so if a transaction is added into block B the code execution spawned by that transaction will be executed by all nodes now and in the future
+- 
 
 Full Node Size: 700 GB
 Archive Node Size: 10 TB
@@ -97,3 +98,6 @@ Archive Node Size: 10 TB
 - https://jellopaper.org/evm
 - https://medium.com/hackernoon/getting-deep-into-ethereum-how-data-is-stored-in-ethereum-e3f669d96033
 
+### TODO:
+
+-https://github.com/starkware-libs/cairo-lang/blob/master/src/starkware/cairo/common/patricia_utils.py
