@@ -1,12 +1,13 @@
+import os
 import asyncio
 from requests import get
 
 from starkware.cairo.lang.vm.crypto import pedersen_hash
-from starkware.starknet.definitions.general_config import StarknetGeneralConfig
 from starkware.starknet.services.api.feeder_gateway.block_hash import calculate_block_hash, calculate_event_hash
+from starkware.starknet.definitions.general_config import StarknetGeneralConfig
 
 async def main():
-    data = get("https://alpha4.starknet.io/feeder_gateway/get_block?blockNumber=169907").json()
+    data = get("https://alpha-mainnet.starknet.io/feeder_gateway/get_block?blockNumber=2360").json()
 
     txHashes = []
     txSignatures = []
@@ -37,6 +38,7 @@ async def main():
         int(data["parent_block_hash"], 16),
         data["block_number"],
         bytes.fromhex(data["state_root"]),
+        int(data["sequencer_address"], 16),
         data["timestamp"],
         txHashes,
         txSignatures,

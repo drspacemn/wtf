@@ -1,0 +1,12 @@
+cairo_resource_fee_weights:
+  n_steps: 1.0
+contract_storage_commitment_tree_height: 251
+event_commitment_tree_height: 64
+min_gas_price: 100000000000
+global_state_commitment_tree_height: 251
+invoke_tx_max_n_steps: 1000000
+sequencer_address: '0x21f4b90b0377c82bf330b7b5295820769e72d79d8acd0effa0ebde6e9988bc5'
+starknet_os_config:
+  fee_token_address: '0x20abcf49dad3e9813d65bf1b8d54c5a0c9e6049a3027bd8c2ab315475c0a5c1'
+tx_commitment_tree_height: 64
+tx_version: 0
