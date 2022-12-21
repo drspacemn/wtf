@@ -19,3 +19,4 @@
 - <https://www.serf.io/docs/internals/gossip.html>
 - <https://docs.avax.network/learn/platform-overview/avalanche-consensus>
 - <https://github.com/lambdaclass/libtorrent-rs>
+- <https://www.potaroo.net/ispcol/2022-11/quicvtcp.html>
