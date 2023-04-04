@@ -6,6 +6,7 @@
 - spread exponentially fast and everyone gets every transaction fast
 - no leader
 - no taking turns
+- leader election
 - no consensus on order, add a shim for who talked to who and when
 - you're explaining the details about gossip as you gossip
 
