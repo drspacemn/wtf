@@ -7,7 +7,7 @@
 WTF is a compendium of useless information. A collection of simple, from first principle building block exercises to help understand the core concepts that constitute a large one.
 <br><br>
 
-### Create New Topic
+### Create New Topic:
 Enter the topic you want to learn about snake_case followed by all applicable tags you can think of(also snake_case)
 
 ```bash
