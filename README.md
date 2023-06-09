@@ -19,7 +19,7 @@ $ bash scripts/wtf_is.sh data_availability ethereum zk zero_knowledge rollups en
 <br><br>
 
 ### Create New Sub Topic
-Enter the over-arching topic this will go under, and the name of the sub topic in snake_case followed by the programming language for your demo. Defaults to golang.
+Enter the over-arching topic this will go under, and the name of the sub topic in snake_case followed by the programming language for your demo. Defaults to Rust.
 
 ```bash
 // Usage: scripts/subtopic_wtf_is.sh <TOPIC_NAME> <SUB_TOPIC_NAME> [golang|rust|python|all]
