@@ -1,4 +1,6 @@
 ## WTF is Zero Knowledge Cryptography?
+Zero Knowledge cryptography refers to the methods and process whereby a verifier is sufficiently
+convinced by a prover that a statement of computational integrity is correct
 
 #### Sources:
 - https://eprint.iacr.org/2021/370.pdf
