@@ -5,6 +5,7 @@ This data sturcture is easy to ingest in the same runtime context, but how would
 Conversion of the in-memory data structe into series of bytes that record the data strucre in a recoverable format
 Deserialization is the other side of the coin, we have a series of bytes that then needs to be recovered to an in memory data structure.
 At one runtime context the golang struct is known in the process memory and then in the browser context it can know the same.
+Substrate encode, decode
 
 ### Simple Binary Encoding:
 - codec aimed at addressing the efficiency inssues in low-latency trading
