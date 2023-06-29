@@ -7,3 +7,4 @@ convinced by a prover that a statement of computational integrity is correct
 - https://github.com/ConsenSys/goff
 - https://github.com/lambdaclass/circom_export_to_cairo
 - https://people.cs.georgetown.edu/jthaler/ProofsArgsAndZK.pdf
+- https://gov.near.org/t/rainbow-upgrade-idea-using-zk-snarks-to-cheaply-verify-ed25519-signatures-on-ethereum-mainnet/7089
