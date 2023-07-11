@@ -5,7 +5,9 @@
 
 
 #### Notes:
-
+- SHARP
+- Facts
+- Fact Tree encoding
 
 #### Sources:
 
